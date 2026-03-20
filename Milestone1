@@ -1,1 +1,79 @@
+ import speech_recognition as sr
+import pyttsx3
+
+#  TEXT TO SPEECH FUNCTION 
+def speak(text):
+    engine = pyttsx3.init()
+    engine.say(text)
+    engine.runAndWait()
+
+#  SPEECH TO TEXT FUNCTION 
+def listen():
+    recognizer = sr.Recognizer()
+    
+
+    with sr.Microphone() as source:
+        print("\n Speak Now...")
+        speak("Speak now")
+
+        recognizer.adjust_for_ambient_noise(source, duration=1)
+        audio = recognizer.listen(source)
+
+        try:
+            print(" Recognizing...")
+            text = recognizer.recognize_google(audio, language="en-IN")
+            print(" You said:", text)
+            return text.lower()
+
+        except sr.UnknownValueError:
+            print(" Sorry, I could not understand.")
+            speak("Sorry, I could not understand. Please try again.")
+            return ""
+
+        except sr.RequestError:
+            print(" Network Error. Check internet connection.")
+            speak("Network error. Please check your internet connection.")
+            return ""
+
+#  MAIN PROGRAM
+def main():
+    speak("Welcome to Voice Based Email Assistant. Milestone one started.")
+    print("  Voice Based Email Assistant (Milestone 1)")
+    print("Say commands like: hello, check inbox, send email, exit")
+
+    while True:
+        command = listen()
+
+        if command == "":
+            continue
+
+        # COMMAND LOGIC
+        if "hello" in command:
+            speak("Hello! How can I help you?")
+            print(" Response: Hello! How can I help you?")
+
+        elif "check inbox" in command:
+            speak("Inbox feature will be added in the next milestone.")
+            print(" Response: Inbox feature will be added in the next milestone.")
+
+        elif "send email" in command:
+            speak("Email sending feature will be added in the next milestone.")
+            print(" Response: Email sending feature will be added in the next milestone.")
+
+        elif "read email" in command:
+            speak("Reading email feature will be added in the next milestone.")
+            print(" Response: Reading email feature will be added in the next milestone.")
+
+        elif "exit" in command or "bye" in command:
+            speak("Goodbye! Milestone one completed.")
+            print(" Exiting Program...")
+            break
+
+        else:
+            speak("Sorry, this command is not available now.")
+            print(" Response: Unknown command.")
+
+#  RUN PROGRAM 
+if __name__ == "__main__":
+    main()
 
